@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DqXGyqACk6jbGyr9ChltvfXkATvDg6YhgDqvu9I0W1wMg7Rg7Im9FMgg7Oc826y3YlIuPsMaRZBp21iw/9c7Ig==",
+  "dgSpecHash": "X3123egS4jix7kiEv+DK9wO2dcgwez7/fSBahgUj3VbAsjFJGvfFFmbefO3Xy8tbC7pPG4iRUpCvYFCAG/ktlQ==",
   "success": true,
-  "projectFilePath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
+  "projectFilePath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\spahb\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\spahb\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

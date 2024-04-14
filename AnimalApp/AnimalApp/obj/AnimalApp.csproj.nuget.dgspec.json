@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\AnimalApp.csproj": {}
+    "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\AnimalApp.csproj": {}
   },
   "projects": {
-    "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\AnimalApp.csproj": {
+    "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\AnimalApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
+        "projectUniqueName": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
         "projectName": "AnimalApp",
-        "projectPath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
+        "projectPath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\AnimalApp.csproj",
         "packagesPath": "C:\\Users\\spahb\\.nuget\\packages\\",
-        "outputPath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3\\AnimalApp\\AnimalApp\\obj\\",
+        "outputPath": "C:\\home\\szkoła\\rok 3 semestr 2\\APBD\\cw3_git\\AnimalApp\\AnimalApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\spahb\\AppData\\Roaming\\NuGet\\NuGet.Config",
