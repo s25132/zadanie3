@@ -1,5 +1,4 @@
 ﻿using AnimalApp.model;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace AnimalApp.Repositories
@@ -26,23 +25,49 @@ namespace AnimalApp.Repositories
 
         public int DeleteAnimal(int idAnimal) //Jeżeli istnieje animal o tym id to go usuń
         {
+            Console.WriteLine("DeleteAnimal : " + idAnimal);
+
             if (checkIfAnimalExistsByid(idAnimal))
             {
-                return 0;
+                using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+                con.Open();
+
+                using var cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "DELETE FROM Animal WHERE idAnimal = @idAnimal";
+                cmd.Parameters.AddWithValue("@idAnimal", idAnimal);
+
+                var affectedCount = cmd.ExecuteNonQuery();
+                return affectedCount;
             }
+
             return -1;
         }
 
         public Animal GetAnimal(int idAnimal)
         {
-            return new Animal
+            using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+            con.Open();
+
+            using var cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal WHERE idAnimal = @idAnimal";
+            cmd.Parameters.AddWithValue("@idAnimal", idAnimal);
+
+            var dr = cmd.ExecuteReader();
+
+            if (!dr.Read()) return null;
+
+            Animal animal = new Animal
             {
-                IdAnimal = 1,
-                Name = "Test",
-                Description = "Test",
-                Category = "Test",
-                Area = "Test"
+                IdAnimal = (int)dr["IdAnimal"],
+                Name = dr["Name"].ToString(),
+                Description = dr["Description"].ToString(),
+                Category = dr["Category"].ToString(),
+                Area = dr["Area"].ToString()
             };
+
+            return animal;
         }
 
         public IEnumerable<Animal> GetAnimals(string orderBy)
@@ -53,7 +78,15 @@ namespace AnimalApp.Repositories
 
             using var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal ORDER BY @orderByCol";
+            cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal " +
+                "ORDER BY " +
+                "CASE WHEN @orderByCol = 'IdAnimal' Then IdAnimal ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'Name' Then Name ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'Description' then Description ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'Area' then Area ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'Category' then Category ELSE null END ASC";
+
+
             cmd.Parameters.AddWithValue("@orderByCol", orderBy);
 
             var dr = cmd.ExecuteReader();
@@ -69,22 +102,11 @@ namespace AnimalApp.Repositories
                    Category = dr["Category"].ToString(),
                    Area = dr["Area"].ToString()
                 };
+
                 animals.Add(animal);
             }
 
             return animals;
-            /*          List<Animal> Animals = new List<Animal>();
-
-                      Animals.Add(new Animal
-                      {
-                          IdAnimal = 1,
-                          Name = "Test",
-                          Description = "Test",
-                          Category = "Test",
-                          Area = "Test"
-                      });
-
-                      return Animals;*/
         }
 
         public int UpdateAnimal(int id, Animal animal)
@@ -105,8 +127,9 @@ namespace AnimalApp.Repositories
             cmd.Connection = con;
             cmd.CommandText = "select count(1) FROM Animal WHERE IdAnimal = @IdAnimal";
             cmd.Parameters.AddWithValue("@IdAnimal", id);
+            Int32 count = (Int32)cmd.ExecuteScalar();
 
-            var count = cmd.ExecuteNonQuery();
+            Console.WriteLine("checkIfAnimalExistsByid : " + count);
 
             return (count > 0);
         }

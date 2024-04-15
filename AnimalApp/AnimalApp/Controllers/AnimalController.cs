@@ -51,6 +51,14 @@ public class AnimalController : ControllerBase
     [HttpDelete("{idAnimal}")]
     public ActionResult DeleteAnimal(int idAnimal)
     {
-        return Ok(_service.DeleteAnimal(idAnimal));
+
+        int count = _service.DeleteAnimal(idAnimal);
+
+        if (count == -1)
+        {
+            return NotFound("there is nothing to delete");
+        }
+
+        return Ok(count);
     }
 }
