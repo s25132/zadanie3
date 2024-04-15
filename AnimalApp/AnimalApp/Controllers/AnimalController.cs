@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AnimalApp.model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GakkoHorizontalSlice.Controllers;
 
@@ -6,14 +7,29 @@ namespace GakkoHorizontalSlice.Controllers;
 [ApiController]
 public class AnimalController : ControllerBase
 {
-    /// <summary>
-    /// Endpoints used to return list of animals.
-    /// </summary>
-    /// <returns>List of animals</returns>
     [HttpGet]
-    public IActionResult GetAnimals()
+    public IActionResult GetAnimals([FromQuery] string orderBy = "name")
     {
         return Ok();
     }
+
+    [HttpPost]
+    public ActionResult AddAnimal([FromBody] Animal newAnimal)
+    {
+        return Ok();
+    }
+
+    [HttpPut("{idAnimal}")]
+    public ActionResult UpdateAnimal(int idAnimal, [FromBody] Animal updatedAnimal)
+    {
+        return Ok();
+    }
+
+    [HttpDelete("{idAnimal}")]
+    public ActionResult DeleteAnimal(int idAnimal)
+    {
+        return Ok();
+    }
+
 
 }
