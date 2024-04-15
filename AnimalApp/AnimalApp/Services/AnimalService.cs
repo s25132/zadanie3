@@ -27,9 +27,9 @@ namespace AnimalApp.Services
             return _repository.GetAnimal(idAnimal);
         }
 
-        public IEnumerable<Animal> GetAnimals()
+        public IEnumerable<Animal> GetAnimals(string orderBy)
         {
-            return _repository.GetAnimals();
+            return _repository.GetAnimals(orderBy);
         }
 
         public int UpdateAnimal(int id, Animal animal)

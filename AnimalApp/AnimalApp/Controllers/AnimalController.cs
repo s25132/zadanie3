@@ -20,7 +20,7 @@ public class AnimalController : ControllerBase
     [HttpGet]
     public IActionResult GetAnimals([FromQuery] string orderBy = "name")
     {
-        return Ok(_service.GetAnimals());
+        return Ok(_service.GetAnimals(orderBy));
     }
 
     [HttpGet("{id:int}")]
