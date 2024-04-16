@@ -1,4 +1,4 @@
-﻿using AnimalApp.model;
+﻿using AnimalApp.Model;
 using System.Data.SqlClient;
 
 namespace AnimalApp.Repositories
@@ -16,61 +16,42 @@ namespace AnimalApp.Repositories
 
         public int AddAnimal(Animal animal)
         {
-            if (!checkIfAnimalExistsByid(animal.IdAnimal)) //Jeżeli nie istnieje animal o tym id to go dodaj
-            {
-                return 0;
-            }
-            return -1;
-        }
-
-        public int DeleteAnimal(int idAnimal) //Jeżeli istnieje animal o tym id to go usuń
-        {
-            Console.WriteLine("DeleteAnimal : " + idAnimal);
-
-            if (checkIfAnimalExistsByid(idAnimal))
-            {
-                using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
-                con.Open();
-
-                using var cmd = new SqlCommand();
-                cmd.Connection = con;
-                cmd.CommandText = "DELETE FROM Animal WHERE idAnimal = @idAnimal";
-                cmd.Parameters.AddWithValue("@idAnimal", idAnimal);
-
-                var affectedCount = cmd.ExecuteNonQuery();
-                return affectedCount;
-            }
-
-            return -1;
-        }
-
-        public Animal GetAnimal(int idAnimal)
-        {
             using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
             con.Open();
 
             using var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal WHERE idAnimal = @idAnimal";
-            cmd.Parameters.AddWithValue("@idAnimal", idAnimal);
+            cmd.CommandText = "INSERT INTO Animal(Name, Description, Category, Area) " +
+                "OUTPUT INSERTED.IdAnimal " +
+                "VALUES(@Name, @Description, @Category, @Area)";
 
-            var dr = cmd.ExecuteReader();
+            cmd.Parameters.AddWithValue("@Name", animal.Name);
+            cmd.Parameters.AddWithValue("@Description", animal.Description);
+            cmd.Parameters.AddWithValue("@Category", animal.Category);
+            cmd.Parameters.AddWithValue("@Area", animal.Area);
 
-            if (!dr.Read()) return null;
-
-            Animal animal = new Animal
-            {
-                IdAnimal = (int)dr["IdAnimal"],
-                Name = dr["Name"].ToString(),
-                Description = dr["Description"].ToString(),
-                Category = dr["Category"].ToString(),
-                Area = dr["Area"].ToString()
-            };
-
-            return animal;
+            var id = (int)cmd.ExecuteScalar();
+            return id;
         }
 
-        public IEnumerable<Animal> GetAnimals(string orderBy)
+        public int DeleteAnimal(int idAnimal)
+        {
+ 
+            using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+            con.Open();
+
+            using var cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "DELETE FROM Animal WHERE idAnimal = @idAnimal";
+            cmd.Parameters.AddWithValue("@idAnimal", idAnimal);
+
+            var affectedCount = cmd.ExecuteNonQuery();
+            return affectedCount;
+;
+        }
+
+
+        public IEnumerable<AnimalWithId> GetAnimals(string orderBy)
         {
 
             using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
@@ -90,11 +71,11 @@ namespace AnimalApp.Repositories
             cmd.Parameters.AddWithValue("@orderByCol", orderBy);
 
             var dr = cmd.ExecuteReader();
-            List<Animal> animals = new List<Animal>();
+            List<AnimalWithId> animals = new List<AnimalWithId>();
 
             while (dr.Read())
             {
-               Animal animal = new Animal
+                AnimalWithId animal = new AnimalWithId
                 {
                    IdAnimal = (int)dr["IdAnimal"],
                    Name = dr["Name"].ToString(),
@@ -111,27 +92,21 @@ namespace AnimalApp.Repositories
 
         public int UpdateAnimal(int id, Animal animal)
         {
-            if (checkIfAnimalExistsByid(id))  //Jeżeli istnieje animal o tym id to go modyfikuj
-            {
-                return 0;
-            }
-            return -1;
-        }
-
-        private bool checkIfAnimalExistsByid(int id)
-        {
             using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
             con.Open();
 
             using var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "select count(1) FROM Animal WHERE IdAnimal = @IdAnimal";
-            cmd.Parameters.AddWithValue("@IdAnimal", id);
-            Int32 count = (Int32)cmd.ExecuteScalar();
+            cmd.CommandText = "UPDATE Animal SET Name=@Name, Description=@Description, Category=@Category, Area=@Area WHERE IdAnimal = @id";
 
-            Console.WriteLine("checkIfAnimalExistsByid : " + count);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@Name", animal.Name);
+            cmd.Parameters.AddWithValue("@Description", animal.Description);
+            cmd.Parameters.AddWithValue("@Category", animal.Category);
+            cmd.Parameters.AddWithValue("@Area", animal.Area);
 
-            return (count > 0);
+            var affectedCount = cmd.ExecuteNonQuery();
+            return affectedCount;
         }
     }
 }

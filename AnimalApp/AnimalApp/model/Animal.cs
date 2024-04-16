@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AnimalApp.model
+namespace AnimalApp.Model
 {
     public class Animal
     {
-
-        [Required]
-        public int IdAnimal { get; set; }
         [MaxLength(200)]
         public string Name { get; set; }
         [Required]

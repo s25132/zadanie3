@@ -1,4 +1,4 @@
-﻿using AnimalApp.model;
+﻿using AnimalApp.Model;
 using AnimalApp.Repositories;
 
 namespace AnimalApp.Services
@@ -22,12 +22,7 @@ namespace AnimalApp.Services
             return _repository.DeleteAnimal(idAnimal);
         }
 
-        public Animal GetAnimal(int idAnimal)
-        {
-            return _repository.GetAnimal(idAnimal);
-        }
-
-        public IEnumerable<Animal> GetAnimals(string orderBy)
+        public IEnumerable<AnimalWithId> GetAnimals(string orderBy)
         {
             return _repository.GetAnimals(orderBy);
         }
