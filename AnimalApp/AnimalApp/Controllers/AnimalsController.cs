@@ -17,8 +17,13 @@ public class AnimalsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAnimals([FromQuery] string orderBy = "Name")
+    public IActionResult GetAnimals([FromQuery] string orderBy = "name")
     {
+        if (orderBy != "name" && orderBy != "description" && orderBy != "category" && orderBy != "area")
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, "Wrong value in orderBy");
+        }
+
         return Ok(_service.GetAnimals(orderBy));
     }
 
@@ -31,12 +36,14 @@ public class AnimalsController : ControllerBase
     [HttpPut("{idAnimal}")]
     public ActionResult UpdateAnimal(int idAnimal, [FromBody] Animal updatedAnimal)
     {
-        return Ok(_service.UpdateAnimal(idAnimal, updatedAnimal));
+        _service.UpdateAnimal(idAnimal, updatedAnimal);
+        return NoContent();
     }
 
     [HttpDelete("{idAnimal}")]
     public ActionResult DeleteAnimal(int idAnimal)
     {
-        return Ok(_service.DeleteAnimal(idAnimal));
+        _service.DeleteAnimal(idAnimal);
+        return NoContent();
     }
 }

@@ -61,11 +61,10 @@ namespace AnimalApp.Repositories
             cmd.Connection = con;
             cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal " +
                 "ORDER BY " +
-                "CASE WHEN @orderByCol = 'IdAnimal' Then IdAnimal ELSE null END ASC, " +
-                "CASE WHEN @orderByCol = 'Name' Then Name ELSE null END ASC, " +
-                "CASE WHEN @orderByCol = 'Description' then Description ELSE null END ASC, " +
-                "CASE WHEN @orderByCol = 'Area' then Area ELSE null END ASC, " +
-                "CASE WHEN @orderByCol = 'Category' then Category ELSE null END ASC";
+                "CASE WHEN @orderByCol = 'name' Then Name ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'description' then Description ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'area' then Area ELSE null END ASC, " +
+                "CASE WHEN @orderByCol = 'category' then Category ELSE null END ASC";
 
 
             cmd.Parameters.AddWithValue("@orderByCol", orderBy);
