@@ -5,7 +5,6 @@ namespace AnimalApp.Model
 {
     public class AnimalWithId : Animal
     {
-
         [Required]
         public int IdAnimal { get; set; }
     }
